@@ -1,0 +1,84 @@
+﻿@model Blog.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Results";
+}
+
+<div class="container">
+    <h1 style="background-color: white; text-shadow: 1px 1px 1px #0026ff">Analysis results</h1>
+    <hr />
+    <div class="well">
+        <fieldset>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    @{
+                        if (string.IsNullOrEmpty(Model.TextForAnalysis))
+                        {
+                            <h3 style="color: crimson">The input text is invalid.Please enter valid text!</h3>
+                        }
+                        else
+                        {
+                            var uncheckedWords = Model.TextForAnalysis
+                                .ToLower()
+                                .Split(new char[] { ' ', '\n', '\t' }, StringSplitOptions.RemoveEmptyEntries)
+                                .Select(w => w.Trim(new char[] { '?', '.', ':', ';', '!', '(', ')', ',' }))
+                                .ToList();
+                            
+                            for (int i = 0; i < uncheckedWords.Count; i++)
+                            {
+                                for (int j = 0; j < uncheckedWords[i].Length; j++)
+                                {
+                                    if (!char.IsLetter(uncheckedWords[i][j]))
+                                    {
+                                        uncheckedWords.Remove(uncheckedWords[i]);
+                                        i--;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            Dictionary<string, int> words = new Dictionary<string, int>();
+
+                            foreach (var word in uncheckedWords)
+                            {
+                                if (!words.ContainsKey(word))
+                                {
+                                    words.Add(word, 1);
+                                }
+                                else
+                                {
+                                    words[word]++;
+                                }
+                            }
+
+                            words = words.OrderByDescending(p => p.Value).ThenBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value);
+
+                            if (words.Count == 0)
+                            {
+                            <h3>
+                                The input text is invalid. Please enter valid text!
+                            </h3>
+                            }
+                            else
+                            {
+                                foreach (var pair in words)
+                                {
+                                <h3>
+                                    Word '<span style="color: chartreuse">@pair.Key</span>' is present <span style="color: crimson">@pair.Value</span> times in the text.
+                                </h3>
+                                <hr />
+                                    }
+                                }
+                            }
+                        }
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-4">
+                    @Html.ActionLink("Start new analysis", "ContentAnalysis", "Home", null, new { @class = "btn btn-success" })
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</div>

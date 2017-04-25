@@ -1,0 +1,49 @@
+﻿@model List<Blog.Models.NewsArticle>
+
+@{
+    ViewBag.Title = "News";
+    string print = "";
+    bool tooLong = false;
+}
+
+<div class="container" style="background-color: white">
+    <div class="row">
+        @foreach (var newsArticle in Model)
+        {
+            if (newsArticle.Content.Length > 1000)
+            {
+                print = newsArticle.Content.Substring(0, 1000);
+                tooLong = true;
+            }
+            <div class="col-sm-6">
+                <article>
+                    <header>
+                        <h2>
+                            @Html.ActionLink(newsArticle.Title, "NewsDetails", "NewsArticle", new { @id = newsArticle.Id }, null)
+                        </h2>
+                    </header>
+                    <p style="text-align: justify">
+                        @if (tooLong)
+                        {
+                            @print <strong>...</strong>
+                            @Html.ActionLink("Read more", "NewsDetails", "NewsArticle", new { @id = newsArticle.Id }, null)
+                        }
+                        else
+                        {
+                            @newsArticle.Content
+                        }
+                    </p>
+
+                    <footer class="pull-right">
+                        <small class="author">
+                            News author: @newsArticle.Author
+                            <br />
+                            Original source: @newsArticle.OriginalSource
+                        </small>
+                    </footer>
+                </article>
+            </div>
+        }
+    </div>
+</div>
+<hr />

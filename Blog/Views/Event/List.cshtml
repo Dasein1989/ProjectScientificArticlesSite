@@ -1,0 +1,46 @@
+﻿@model List<Blog.Models.Event>
+
+@{
+    ViewBag.Title = "Upcoming events";
+    string print = "";
+    bool tooLong = false;
+}
+
+<div class="container" style="background-color: white">
+    <div class="row">
+        @foreach (var conference in Model.OrderBy(e => e.Date))
+        {
+            if (conference.Content.Length > 1000)
+            {
+                print = conference.Content.Substring(0, 1000);
+                tooLong = true;
+            }
+            <div class="col-sm-6">
+                <article>
+                    <header>
+                        <h2>
+                            @Html.ActionLink(@conference.Title, "Details", "Event", new { @id = conference.Id }, null)
+                        </h2>
+                    </header>
+                    <p style="text-align: justify">
+                        @if (tooLong)
+                        {
+                            @print <strong>...</strong>
+                            @Html.ActionLink("Read more", "Details", "Event", new { @id = conference.Id }, null)
+                        }
+                        else
+                        {
+                            @conference.Content
+                        }
+                    </p>
+                    <footer class="pull-right">
+                        <small class="author">
+                            Date: @string.Format("{0:dd.MM.yyyy}", conference.Date)
+                        </small>
+                    </footer>
+                </article>
+            </div>
+        }
+    </div>
+</div>
+<hr />

@@ -1,0 +1,126 @@
+﻿@model Blog.Models.Article
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="container" style="background-color: white">
+    <article>
+        <header>
+            <h2>
+                @Model.Title
+            </h2>
+        </header>
+        <p style="text-align: justify">
+            @Model.Content
+        </p>
+
+        @if (User.IsInRole("Admin"))
+        {
+            <small class="author">
+                Author: @Html.ActionLink(Model.WrittenBy, "ListByAuthor", "Article", new { @id = Model.ArticleId }, null)
+                <br />
+                Article added by: @Model.Author.FullName
+            </small>
+        }
+        else
+        {
+            <small class="author">
+                Author: @Html.ActionLink(Model.WrittenBy, "ListByAuthor", "Article", new { @id = Model.ArticleId }, null)
+            </small>
+        }
+        <footer class="pull-right">
+            @if (User.IsInRole("Admin") || Model.IsAuthor(User.Identity.Name))
+            {
+                @Html.ActionLink("Edit", "Edit", "Article", new { @id = Model.ArticleId }, new { @class = "btn btn-success btn-xs" })
+                @Html.ActionLink("Delete", "Delete", "Article", new { @id = Model.ArticleId }, new { @class = "btn btn-danger btn-xs" })
+            }
+
+            @Html.ActionLink("Back", "ListCategories", "Home", null, new { @class = "btn btn-default btn-xs" })
+        </footer>
+
+        <br />
+        @if (Request.IsAuthenticated)
+        {
+            @Html.ActionLink("Add Comment", "AddComment", "Article", new { @id = Model.ArticleId }, new { @class = "btn btn-success btn-xs" })
+        }
+
+        <br />
+
+        @if (User.IsInRole("Admin"))
+        {
+            if (Model.Comments != null && Model.Comments.Count > 0)
+            {
+                <h4>
+                    <span class="label-info" style="border-radius: 3px">Comments</span>
+                </h4>
+                foreach (var comment in Model.Comments)
+                {
+                    <hr />
+                    <h4>
+                        <span class="label-default" style="border-radius: 3px">@comment.Author</span>
+                    </h4>
+                    <small class="pull-right">
+                        @string.Format("{0:dd.MM.yyyy} {0:HH:mm}", comment.PostTime)
+                    </small>
+
+                    <p>
+                        @comment.Content
+                    </p>
+
+                    <br />
+                    if (comment.EditMessage != null)
+                    {
+                        <small class="pull-left">
+                            @comment.EditMessage
+                        </small>
+                    }
+
+                    <footer class="pull-right">
+                        @Html.ActionLink("Edit Comment", "EditComment", "Article", new { @id = comment.Id }, new { @class = "btn btn-success btn-xs" })
+                        @Html.ActionLink("Delete Comment", "DeleteComment", "Article", new { @id = comment.Id }, new { @class = "btn btn-danger btn-xs" })
+                    </footer>
+                }
+            }
+        }
+        else
+        {
+            if (Model.Comments != null && Model.Comments.Count > 0)
+            {
+                <h4>
+                    <span class="label-info" style="border-radius: 3px">Comments</span>
+                </h4>
+                foreach (var comment in Model.Comments)
+                {
+                    <hr />
+                    <h4>
+                        <span class="label-default" style="border-radius: 3px">@comment.Author</span>
+                    </h4>
+                    <small class="pull-right">
+                        @string.Format("{0:dd.MM.yyyy} {0:HH:mm}", comment.PostTime)
+                    </small>
+
+                    <p>
+                        @comment.Content
+                    </p>
+
+                    <br />
+                    if (comment.EditMessage != null)
+                    {
+                        <small class="pull-left">
+                            @comment.EditMessage
+                        </small>
+                    }
+
+                    if (comment.AuthorEmail.Equals(User.Identity.Name))
+                    {
+                        <footer class="pull-right">
+                            @Html.ActionLink("Edit Comment", "EditComment", "Article", new { @id = comment.Id }, new { @class = "btn btn-success btn-xs" })
+                        </footer>
+                    }
+                }
+            }
+        }
+    </article>
+</div>
+<hr />

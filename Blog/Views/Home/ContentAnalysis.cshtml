@@ -1,0 +1,33 @@
+﻿@model Blog.Models.ContentAnalysisViewModel
+
+@{
+    ViewBag.Title = "Content Analysis";
+}
+
+<div class="container">
+    <div class="well" style="background-color: #3498db">
+        <h1 style="text-shadow: 1px 1px 1px #0026ff">Content analysis tool</h1>
+        @using (Html.BeginForm("ContentAnalysis", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            <div class="form-group">
+                @Html.Label("Input text for analysis", new { @class = "control-label col-sm-4" })
+                <div class="col-sm-4">
+                    @Html.TextAreaFor(m => m.Text, new { @class = "form-control", @rows = "7" })
+                </div>
+            </div>
+            <div class="form-group">
+                <h4 style="text-align: center; color: crimson;">
+                    The tool will skip words containing non-letter characters.
+                    If the input text is too long the readability of the results will be decreased.
+                    Have in mind that content analysis only gives general look on what is the focus of a certain text.
+                </h4>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-4">
+                    <button type="submit" class="btn btn-primary">Process</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "Error";
+}
+
+<h2>Error</h2>
+
+<div class="container">
+    <p class="alert-danger" style="text-align: center">
+        <strong>All fields of the scientific article are required! Please input valid information!</strong>
+    </p>
+
+    @Html.ActionLink("Return to 'Create Scientific Article'", "Create", "Article", null, new { @class = "btn btn-danger" })
+</div>
+

@@ -1,0 +1,33 @@
+﻿@model Blog.Models.NewsArticle
+
+@{
+    ViewBag.Title = "Latest news";
+}
+
+<div class="container" style="background-color: white">
+    <article>
+        <header>
+            <h2>
+                @Model.Title
+            </h2>
+        </header>
+        <p style="text-align: justify">
+            @Model.Content
+        </p>
+        <small class="author">
+            News author: @Model.Author
+            <br />
+            News original source: @Model.OriginalSource
+        </small>
+        <footer class="pull-right">
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.ActionLink("Edit", "Edit", "NewsArticle", new { @id = Model.Id }, new { @class = "btn btn-success btn-xs" })
+                @Html.ActionLink("Delete", "Delete", "NewsArticle", new { @id = Model.Id }, new { @class = "btn btn-danger btn-xs" })
+            }
+
+            @Html.ActionLink("Back", "Index", "NewsArticle", null, new { @class = "btn btn-default btn-xs" })
+        </footer>
+    </article>
+</div>
+<hr />

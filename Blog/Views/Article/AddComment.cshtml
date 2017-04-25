@@ -1,0 +1,33 @@
+﻿@model Blog.Models.Comment
+@{
+    ViewBag.Title = "Add Comment";
+}
+<div class="container">
+    <div class="well">
+        <h2>Add Comment</h2>
+        @using (Html.BeginForm("AddComment", "Article", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.Author)
+            @Html.HiddenFor(m => m.ArticleId)
+            @Html.HiddenFor(m => m.AuthorEmail)
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Content, new { @class = "control-label col-sm-4" })
+                <div class="col-sm-4">
+                    @Html.TextAreaFor(m => m.Content, new { @class = "form-control", @rows = "7" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-4">
+                    @Html.ActionLink("Cancel", "Details", "Article", new { id = Model.ArticleId }, new { @class = "btn btn-default" })
+                    <input type="submit" value="Add Comment" class="btn btn-success" />
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body style="background-image: url('C:/Users/Mihael/Documents/Visual Studio 2015/Projects/Blog/Blog/Content/world.png'); background-repeat: no-repeat; background-size: cover">
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("SECURITY & DEFENSE", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div style="background-color: red; margin: -10px 0px 0px 0px; padding: 3px 0px 0px 0px"></div>
+    <div class="container body-content">
+        @RenderBody()
+        <span class="pull-left" style="color: crimson; background-color: white; text-shadow: 0px 1px 1px #000000;">ISSN 2895-3674</span> 
+        <footer class="pull-right">
+            <p style="color: crimson; background-color: white; text-shadow: 0px 1px 1px #000000;">&copy; @DateTime.Now.Year - Security &amp; Defense</p>
+        </footer>
+    </div>
+
+    <div class="text-center" style="color: darkblue">
+        <h4 style="background-color: aliceblue; text-shadow: 2px 2px 4px #000000;">PARTNERS:</h4>
+    </div>
+
+    <div class="glyphicon-align-center">
+        <a href="https://www.md.government.bg/en/index.php">
+            <img src="~/Content/mod.png" height="50" style="padding: 0px 15px 0px 15px"/>
+        </a>
+
+        <a href="http://www.dans.bg/">
+            <img src="~/Content/dans.jpg" height="50" style="padding: 0px 10px 0px 10px" />
+        </a>
+
+        <a href="https://www.dar.bg/bg">
+            <img src="~/Content/dar.png" height="50" style="padding: 0px 10px 0px 10px" />
+        </a>
+
+        <a href="http://www.nato.int/">
+            <img src="~/Content/nato.jpg" height="50" />
+        </a>
+
+        <a href="http://europa.eu/">
+            <img src="~/Content/eu.jpg" height="50" />
+        </a>
+
+        <a href="https://eeas.europa.eu/headquarters/headquarters-homepage_en">
+            <img src="~/Content/eeas.jpg" height="50" />
+        </a>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
