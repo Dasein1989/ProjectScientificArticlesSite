@@ -28,7 +28,6 @@ namespace Blog.Models
         public int ArticleId { get; set; }
 
         [Required]
-        [StringLength(255)]
         public string Title { get; set; }
 
         public string Content { get; set; }
@@ -47,7 +46,7 @@ namespace Blog.Models
         {
             return this.Author.UserName.Equals(name);
         }
-        // made it nullable
+
         [ForeignKey("Category")]
         public int? CategoryId { get; set; }
         

@@ -129,7 +129,6 @@ namespace Blog.Controllers
                     return HttpNotFound();
                 }
 
-                // EXTREMELY IMPORTANT SHIT !!!
                 // create the view model
                 var model = new Comment();
                 model.ArticleId = article.ArticleId;
@@ -187,7 +186,10 @@ namespace Blog.Controllers
 
             using (var database = new BlogDBContext())
             {
-                var currentComment = database.Comments.Where(c => c.Id == id).First();
+                var currentComment = database
+                    .Comments
+                    .Where(c => c.Id == id)
+                    .First();
 
                 if (currentComment == null)
                 {
@@ -222,9 +224,14 @@ namespace Blog.Controllers
                 using (var database = new BlogDBContext())
                 {
                     // get the article from db
-                    var currentComment = database.Comments.FirstOrDefault(c => c.Id == model.Id);
+                    var currentComment = database
+                        .Comments
+                        .FirstOrDefault(c => c.Id == model.Id);
 
-                    var articleWithComment = database.Articles.Where(a => a.ArticleId == currentComment.ArticleId).First();
+                    var articleWithComment = database
+                        .Articles
+                        .Where(a => a.ArticleId == currentComment.ArticleId)
+                        .First();
 
                     int position = -1;
 
